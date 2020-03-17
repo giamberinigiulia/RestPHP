@@ -7,14 +7,12 @@
  */
  
 include("DBConnection.php");
-class Student 
+class Classe 
 {
     protected $db;
     public $_id;
-    public $_name;
-    public $_surname;
-    public $_sidiCode;
-    public $_taxCode;
+    public $_year;
+    public $_section;
  
     public function __construct() {
         $this->db = new DBConnection();
@@ -24,12 +22,10 @@ class Student
     //insert
     public function inserimento() {
 		try {
-    		$sql = 'INSERT INTO student (name, surname, sidiCode, taxCode)  VALUES (:name, :surname, :sidiCode, :taxCode)';
+    		$sql = 'INSERT INTO class (year, section)  VALUES (:year, :section)';
     		$data = [
-			    'name' => $this->_name,
-			    'surname' => $this->_surname,
-			    'sidiCode' => $this->_sidiCode,
-			    'taxCode' => $this->_taxCode,
+			    'year' => $this->_year,
+			    'section' => $this->_section,
 			];
 	    	$stmt = $this->db->prepare($sql);
 	    	$stmt->execute($data);
@@ -45,7 +41,7 @@ class Student
     // getAll 
     public function lista() {
     	try {
-    		$sql = "SELECT * FROM student";
+    		$sql = "SELECT * FROM class";
 		    $stmt = $this->db->prepare($sql);
  
 		    $stmt->execute();
@@ -59,7 +55,7 @@ class Student
     // getOne
     public function one() {
     	try {
-    		$sql = "SELECT * FROM student WHERE id=:id";
+    		$sql = "SELECT * FROM class WHERE id=:id";
 		    $stmt = $this->db->prepare($sql);
 		    $data = [
 		    	'id' => $this->_id
@@ -76,7 +72,7 @@ class Student
     public function eliminazione() 
 	{
 		try {
-    		$sql = "DELETE FROM student WHERE id=:id";
+    		$sql = "DELETE FROM class WHERE id=:id";
 		    $stmt = $this->db->prepare($sql);
 		    $data = [
 		    	'id' => $this->_id
@@ -84,6 +80,8 @@ class Student
 		    $stmt->execute($data);
             return "Eliminazione avvenuta";
 		} catch (Exception $e) {
+		    
+			echo $e;
 			die("Oh noes! There's an error in the query!");
 			
 		}
@@ -93,14 +91,12 @@ class Student
     public function aggiornamento() 
 	{
 		try {
-    		$sql = "UPDATE student SET name=:name, surname=:surname, sidiCode=:sidiCode, taxCode=:taxCode WHERE id=:id";
+    		$sql = "UPDATE class SET year=:year, section=:section WHERE id=:id";
 		    $stmt = $this->db->prepare($sql);
 		    $data = [
 		    	'id' => $this->_id,
-				'name' => $this->_name,
-				'surname' => $this->_surname,
-				'sidiCode' => $this->_sidiCode,
-				'taxCode' => $this->_taxCode
+				'year' => $this->_year,
+				'section' => $this->_section
 			];
 		    $stmt->execute($data);
             return "Aggiornamento effettuato";
@@ -115,15 +111,11 @@ class Student
     public function aggiornamento_parziale() 
 	{
 		try {
-    		$sql = "UPDATE student SET ";
-			if($this->_name)
-				$sql .= " name=:name,";
-			if($this->_surname)
-				$sql .= " surname=:surname,";
-			if($this->_sidiCode)
-				$sql .=" sidiCode=:sidiCode,";
-			if($this->_taxCode)
-				$sql .=" taxCode=:taxCode,";
+    		$sql = "UPDATE class SET ";
+			if($this->_year)
+				$sql .= " year=:year,";
+			if($this->_section)
+				$sql .= " section=:section,";
 			
 			//rimozione dell'ultima virgola
 			$lenght= strlen($sql);
@@ -134,14 +126,10 @@ class Student
 		    $data = [
 		    	'id' => $this->_id
 			];
-			if($this->_name)
-				$data["name"] = $this->_name;
-			if($this->_surname)
-				$data["surname"] = $this->_surname;
-			if($this->_sidiCode)
-				$data["sidiCode"] = $this->_sidiCode;
-			if($this->_taxCode)
-				$data["taxCode"] = $this->_taxCode;
+			if($this->_year)
+				$data["year"] = $this->_year;
+			if($this->_section)
+				$data["section"] = $this->_section;
 		    $stmt->execute($data);
             return "Aggiornamento effettuato";
 		} catch (Exception $e) {

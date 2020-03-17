@@ -1,26 +1,26 @@
 <?php
     $requestMethod = $_SERVER["REQUEST_METHOD"];
-	include('./class/Student.php');
-	$student = new Student();
+	include('./class/Class.php');
+	$classe = new classe();
     switch($requestMethod)
     {
         case 'GET':
-            $pathArray = explode('/', $_SERVER['REQUEST_URI']);
+			$pathArray = explode('/', $_SERVER['REQUEST_URI']);
             $path = explode ('?', $pathArray[2]);
 			if($path[1])
             {
 				$p = explode('=',$path[1]);
                 $id = $p[1];
-                $student->_id=$id;
-				$data=$student->one();
+                $classe->_id=$id;
+				$data=$classe->one();
             }
             else
             {
-                $data = $student->lista();
+                $data = $classe->list();
             }
             if(!empty($data)) 
 			{
-			  $js_encode = json_encode(array('status'=>TRUE, 'studentInfo'=>$data), true);
+			  $js_encode = json_encode(array('status'=>TRUE, 'classeInfo'=>$data), true);
 			} 
 			else 
 			{
@@ -29,17 +29,15 @@
             header('Content-Type: application/json');
             echo "Response: " . $js_encode;
             break;
-        case 'POST':
+		case 'POST':
 			$JSON=file_get_contents('php://input');
 			$i=json_decode($JSON,true);
 			
-			$student->_name = $i["name"];
-			$student->_surname = $i["surname"];
-			$student->_sidiCode = $i["sidicode"];
-			$student->_taxCode = $i["taxcode"];
-
-			$data = $student->inserimento();
-			$js_encode = json_encode(array('status'=>TRUE, 'studentInfo'=>$data), true);
+			$classe->_year = $i["year"];
+			$classe->_section = $i["section"];
+			
+			$data = $classe->inserimento();
+			$js_encode = json_encode(array('status'=>TRUE, 'classeInfo'=>$data), true);
 
 			header('Content-Type: application/json');
 			echo "Response: " . $js_encode;			
@@ -49,12 +47,12 @@
 			if($pathArray[3])
             {
                 $id = $pathArray[3];
-                $student->_id=$id;
-				$data=$student->eliminazione();
+                $classe->_id=$id;
+				$data=$classe->eliminazione();
             }
             if(!empty($data)) 
 			{
-			  $js_encode = json_encode(array('status'=>TRUE, 'studentInfo'=>$data), true);
+			  $js_encode = json_encode(array('status'=>TRUE, 'classeInfo'=>$data), true);
 			} 
 			else 
 			{
@@ -69,33 +67,25 @@
 			if($pathArray[3])
             {
                 $id = $pathArray[3];
-                $student->_id=$id;
+                $classe->_id=$id;
 				
 				$JSON=file_get_contents('php://input');
 				$i=json_decode($JSON,true);
 				
-				if($i["name"])
-					$student->_name =  $i["name"];
+				if($i["year"])
+					$classe->_year =  $i["year"];
 				else 
-					$student->_name = null;
-				if($i["surname"])
-					$student->_surname =  $i["surname"];
+					$classe->_year = null;
+				if($i["section"])
+					$classe->_section =  $i["section"];
 				else 
-					$student->_surname = null;
-				if($i["sidicode"])
-					$student->_sidiCode =  $i["sidicode"];
-				else 
-					$student->_sidiCode = null;
-				if($i["taxcode"])
-					$student->_taxCode =  $i["taxcode"];
-				else 
-					$student->_taxCode = null;
+					$classe->_section = null;
 				
-				$data=$student->aggiornamento();
+				$data=$classe->aggiornamento();
             }
 			if(!empty($data)) 
 			{
-			  $js_encode = json_encode(array('status'=>TRUE, 'studentInfo'=>$data), true);
+			  $js_encode = json_encode(array('status'=>TRUE, 'classInfo'=>$data), true);
 			} 
 			else 
 			{
@@ -110,25 +100,21 @@
 			if($pathArray[3])
             {
                 $id = $pathArray[3];
-                $student->_id=$id;
+                $classe->_id=$id;
 				
 				$JSON=file_get_contents('php://input');
 				$i=json_decode($JSON,true);
 				
-				if(isset($i["name"]))
-					$student->_name =  $i["name"];
-				if(isset($i["surname"]))
-					$student->_surname =  $i["surname"];
-				if(isset($i["sidicode"]))
-					$student->_sidiCode =  $i["sidicode"];
-				if(isset($i["taxcode"]))
-					$student->_taxCode =  $i["taxcode"];
+				if(isset($i["year"]))
+					$classe->_year =  $i["year"];
+				if(isset($i["section"]))
+					$classe->_section =  $i["section"];
 				
-				$data=$student->aggiornamento_parziale();
+				$data=$classe->aggiornamento_parziale();
             }
 			if(!empty($data)) 
 			{
-			  $js_encode = json_encode(array('status'=>TRUE, 'studentInfo'=>$data), true);
+			  $js_encode = json_encode(array('status'=>TRUE, 'classeInfo'=>$data), true);
 			} 
 			else 
 			{
@@ -137,6 +123,5 @@
 			header('Content-Type: application/json');
             echo "Response: " . $js_encode;
 			break;
-		
     };
 ?>

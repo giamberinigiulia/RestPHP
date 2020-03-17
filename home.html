@@ -2,12 +2,15 @@
 <html>
     <head>
         <title>Esempio ajax</title>
-
-        <script>
+		
+        <!--<script>
+			/*
+				Richiesta GET visualizzazione studente/elenco studenti
+			*/
             //preparo la richiesta ajax
             var xhr = new XMLHttpRequest();
             //asincrona
-            xhr.open("GET", 'http://localhost:8000/query.php?id=64', true);
+            xhr.open("GET", 'http://localhost/phprest/students.php?id=1370', true); //http://localhost/phprest/students.php -> visualizzazione tutto database
             //configuro la callback di risposta ok
             xhr.onload = function() {
                 //scrivo la risposta nel body della pagina
@@ -19,24 +22,215 @@
             };
             //invio la richista ajax
             xhr.send();
-        </script>
-
-        
-        
-        <script>
-            //preparo la richiesta ajax
+        </script>-->
+		
+		<!--<script>
+			/* 
+				Richiesta POST visualizzazione studente/elenco studenti
+			*/
+			//preparo la richiesta ajax
             var xhr = new XMLHttpRequest();
-            //sincorna
-            xhr.open("GET", 'http://localhost:8000/query.php?id=64', false);
+            //asincrona
+            xhr.open("POST", 'http://localhost/phprest/students.php/1370', true);
+            //configuro la callback di risposta ok
+            xhr.onload = function() {
+                //scrivo la risposta nel body della pagina
+                document.getElementById('risposta').innerHTML = xhr.response;
+            };
+            //configuro la callback di errore
+            xhr.onerror = function() { 
+                alert('Errore');
+            };
+            //invio la richista ajax
+			var new_student=JSON.stringify({"name":"Carmelo", "surname":"Gigli", "sidicode": "12375647", "taxcode":"GGLCRM04P13A456L"})
+            xhr.send(new_student);
+		
+		</script>-->
+
+		
+		<!-- <script>
+			/* 
+				Richiesta DELETE eliminazione di uno studente
+			*/
+			//preparo la richiesta ajax
+            var xhr = new XMLHttpRequest();
+            //asincrona
+            xhr.open("DELETE", 'http://localhost/phprest/students.php/499', true);
+            //configuro la callback di risposta ok
+            xhr.onload = function() {
+                //scrivo la risposta nel body della pagina
+                document.getElementById('risposta').innerHTML = xhr.response;
+            };
+            //configuro la callback di errore
+            xhr.onerror = function() { 
+                alert('Errore');
+            };
             //invio la richista ajax
             xhr.send();
-            document.getElementById('risposta').innerHTML = xhr.response;
-        </script>
+		
+		</script> -->
+		
+		
+		<!--<script>
+		
+			//preparo la richiesta ajax
+            var xhr = new XMLHttpRequest();
+            //asincrona
+            xhr.open("PUT", 'http://localhost/phprest/students.php/1370', true);
+            //configuro la callback di risposta ok
+            xhr.onload = function() {
+                //scrivo la risposta nel body della pagina
+                document.getElementById('risposta').innerHTML = xhr.response;
+            };
+            //configuro la callback di errore
+            xhr.onerror = function() { 
+                alert('Errore');
+            };
+			
+			//invio la richista ajax
+			var update_student=JSON.stringify({"name":"Giulia", "surname":"Giamberini", "sidicode": "98256445", "taxcode":"GMBGLI01L68D612W"})
+            xhr.send(update_student);
+		</script>-->
+		
+		<!-- <script>
+		
+			//preparo la richiesta ajax
+            var xhr = new XMLHttpRequest();
+            //asincrona
+            xhr.open("PATCH", 'http://localhost/phprest/students.php/1370', true);
+            //configuro la callback di risposta ok
+            xhr.onload = function() {
+                //scrivo la risposta nel body della pagina
+                document.getElementById('risposta').innerHTML = xhr.response;
+            };
+            //configuro la callback di errore
+            xhr.onerror = function() { 
+                alert('Errore');
+            };
+			
+			//invio la richista ajax
+			var update_student=JSON.stringify({"surname":"Bellini", "sidicode": "12345678", "taxcode":"PLSDRF01G64T145A"});
+            xhr.send(update_student);
+		</script> -->
+		
+		
+		
+		<!--<script>
+		
+			//preparo la richiesta ajax
+            var xhr = new XMLHttpRequest();
+            //asincrona
+            xhr.open("GET", 'http://localhost/phprest/classes.php?id=13', true);
+            //configuro la callback di risposta ok
+            xhr.onload = function() {
+                //scrivo la risposta nel body della pagina
+                document.getElementById('risposta').innerHTML = xhr.response;
+            };
+            //configuro la callback di errore
+            xhr.onerror = function() { 
+                alert('Errore');
+            };
+            //invio la richista ajax
+            xhr.send();
+		
+		</script>-->
+		
+		<!--<script>
+		
+			//preparo la richiesta ajax
+            var xhr = new XMLHttpRequest();
+            //asincrona
+            xhr.open("POST", 'http://localhost/phprest/classes.php/15', true);
+            //configuro la callback di risposta ok
+            xhr.onload = function() {
+                //scrivo la risposta nel body della pagina
+                document.getElementById('risposta').innerHTML = xhr.response;
+            };
+            //configuro la callback di errore
+            xhr.onerror = function() { 
+                alert('Errore');
+            };
+            //invio la richista ajax
+			
+			var data = new Date();
+			var year= data.getFullYear();
+			
+            var new_class=JSON.stringify({"year":year, "section":"5BEC"})
+            xhr.send(new_class);
+		
+		</script>-->
+		
+		
+		<!--<script>
+			/* 
+				Richiesta DELETE eliminazione di una classe
+			*/
+			//preparo la richiesta ajax
+            var xhr = new XMLHttpRequest();
+            //asincrona
+            xhr.open("DELETE", 'http://localhost/phprest/classes.php/62', true);
+            //configuro la callback di risposta ok
+            xhr.onload = function() {
+                //scrivo la risposta nel body della pagina
+                document.getElementById('risposta').innerHTML = xhr.response;
+            };
+            //configuro la callback di errore
+            xhr.onerror = function() { 
+                alert('Errore');
+            };
+            //invio la richista ajax
+            xhr.send();
+		
+		</script>-->
+		
+		
+		<!-- <script>
+		
+			//preparo la richiesta ajax
+            var xhr = new XMLHttpRequest();
+            //asincrona
+            xhr.open("PUT", 'http://localhost/phprest/classes.php/59', true);
+            //configuro la callback di risposta ok
+            xhr.onload = function() {
+                //scrivo la risposta nel body della pagina
+                document.getElementById('risposta').innerHTML = xhr.response;
+            };
+            //configuro la callback di errore
+            xhr.onerror = function() { 
+                alert('Errore');
+            };
+			//invio la richista ajax
+			
+			var update_class=JSON.stringify({"year":2019, "section":"5BIA"})
+            xhr.send(update_class);
+		</script>-->
+		
+		<!--<script>
+		
+			//preparo la richiesta ajax
+            var xhr = new XMLHttpRequest();
+            //asincrona
+            xhr.open("PATCH", 'http://localhost/phprest/classes.php/5', true);
+            //configuro la callback di risposta ok
+            xhr.onload = function() {
+                //scrivo la risposta nel body della pagina
+                document.getElementById('risposta').innerHTML = xhr.response;
+            };
+            //configuro la callback di errore
+            xhr.onerror = function() { 
+                alert('Errore');
+            };
+			//invio la richista ajax
+			
+			var update_class=JSON.stringify({"section":"6MEE"})
+            xhr.send(update_class);
+		</script>-->
         
     </head>
     <body>
-        <h1>Esempio pagina con richiesta ajax</h1>
+        <h1>Richieste ajax</h1>
         <p>Risposta:</p>
         <div id="risposta"></div>
+		
     </body>
 </html>
