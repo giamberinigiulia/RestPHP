@@ -10,11 +10,11 @@
             //preparo la richiesta ajax
             var xhr = new XMLHttpRequest();
             //asincrona
-            xhr.open("GET", 'http://localhost/phprest/students.php?id=1370', true); //http://localhost/phprest/students.php -> visualizzazione tutto database
+            xhr.open("GET", 'http://localhost/phprest/students.php', true); //http://localhost/phprest/students.php -> visualizzazione tutto database
             //configuro la callback di risposta ok
             xhr.onload = function() {
                 //scrivo la risposta nel body della pagina
-                document.getElementById('risposta').innerHTML = xhr.response;
+                document.getElementById('risposta').innerHTML += xhr.response;
             };
             //configuro la callback di errore
             xhr.onerror = function() { 
@@ -26,12 +26,12 @@
 		
 		<!--<script>
 			/* 
-				Richiesta POST visualizzazione studente/elenco studenti
+				Richiesta POST inserimento nuovo studente
 			*/
 			//preparo la richiesta ajax
             var xhr = new XMLHttpRequest();
             //asincrona
-            xhr.open("POST", 'http://localhost/phprest/students.php/1370', true);
+            xhr.open("POST", 'http://localhost/phprest/students.php', true);
             //configuro la callback di risposta ok
             xhr.onload = function() {
                 //scrivo la risposta nel body della pagina
@@ -72,8 +72,10 @@
 		
 		
 		<!--<script>
-		
-			//preparo la richiesta ajax
+            /* 
+				Richiesta PUT aggiornamento dati studente (parametro studente completo)
+			*/
+			//preparo la richiesta ajax 
             var xhr = new XMLHttpRequest();
             //asincrona
             xhr.open("PUT", 'http://localhost/phprest/students.php/1370', true);
@@ -93,8 +95,10 @@
 		</script>-->
 		
 		<!-- <script>
-		
-			//preparo la richiesta ajax
+            /* 
+				Richiesta PATCH aggiornamento dati studente (parametro studente parziale)
+			*/
+			//preparo la richiesta ajax 
             var xhr = new XMLHttpRequest();
             //asincrona
             xhr.open("PATCH", 'http://localhost/phprest/students.php/1370', true);
@@ -116,15 +120,18 @@
 		
 		
 		<!--<script>
-		
+            /*
+				Richiesta GET visualizzazione classe/elenco classe
+			*/
 			//preparo la richiesta ajax
             var xhr = new XMLHttpRequest();
             //asincrona
-            xhr.open("GET", 'http://localhost/phprest/classes.php?id=13', true);
+            xhr.open("GET", 'http://localhost/phprest/classes.php', true); // http://localhost/phprest/classes.php?id=13
             //configuro la callback di risposta ok
+
             xhr.onload = function() {
                 //scrivo la risposta nel body della pagina
-                document.getElementById('risposta').innerHTML = xhr.response;
+                document.getElementById('risposta').innerHTML += xhr.response;
             };
             //configuro la callback di errore
             xhr.onerror = function() { 
@@ -136,11 +143,13 @@
 		</script>-->
 		
 		<!--<script>
-		
+            /* 
+				Richiesta POST inserimento nuova classe
+			*/
 			//preparo la richiesta ajax
             var xhr = new XMLHttpRequest();
             //asincrona
-            xhr.open("POST", 'http://localhost/phprest/classes.php/15', true);
+            xhr.open("POST", 'http://localhost/phprest/classes.php', true);
             //configuro la callback di risposta ok
             xhr.onload = function() {
                 //scrivo la risposta nel body della pagina
@@ -185,7 +194,9 @@
 		
 		
 		<!-- <script>
-		
+            /* 
+				Richiesta PUT aggiornamento dati classe (parametro classe completo)
+			*/
 			//preparo la richiesta ajax
             var xhr = new XMLHttpRequest();
             //asincrona
@@ -206,7 +217,9 @@
 		</script>-->
 		
 		<!--<script>
-		
+            /* 
+				Richiesta PATCH aggiornamento dati classe (parametro classe parziale)
+			*/
 			//preparo la richiesta ajax
             var xhr = new XMLHttpRequest();
             //asincrona
@@ -224,11 +237,138 @@
 			
 			var update_class=JSON.stringify({"section":"6MEE"})
             xhr.send(update_class);
-		</script>-->
+        </script>-->
         
+
+
+        <!--<script>
+            /*
+				Richiesta GET visualizzazione student_classes specifico/studenti per classi/lista di studenti con associata la classe
+			*/
+			//preparo la richiesta ajax
+            var xhr = new XMLHttpRequest();
+            //asincrona
+            xhr.open("GET", 'http://localhost/phprest/students_classes.php', true); //http://localhost/phprest/students_classes.php?class=14  or  http://localhost/phprest/students_classes.php?id=13
+            //configuro la callback di risposta ok
+
+            xhr.onload = function() {
+                //scrivo la risposta nel body della pagina
+                document.getElementById('risposta').innerHTML += xhr.response;
+            };
+            //configuro la callback di errore
+            xhr.onerror = function() { 
+                alert('Errore');
+            };
+            //invio la richista ajax
+            
+            xhr.send();
+		
+		</script>-->
+
+        <!--<script>
+            /* 
+				Richiesta POST inserimento nuova relazione classe-studenti (realizzabile solo se esiste uno studente non ancora associato a nessuna classe)
+			*/
+			//preparo la richiesta ajax
+            var xhr = new XMLHttpRequest();
+            //asincrona
+            xhr.open("POST", 'http://localhost/phprest/students_classes.php', true); //funziona solamente se esiste uno studente non ancora associato ad una classe
+            //configuro la callback di risposta ok
+
+            xhr.onload = function() {
+                //scrivo la risposta nel body della pagina
+                document.getElementById('risposta').innerHTML += xhr.response;
+            };
+            //configuro la callback di errore
+            xhr.onerror = function() { 
+                alert('Errore');
+            };
+            //invio la richista ajax
+
+            var new_students_classes=JSON.stringify({"id_student":1701, "id_class":34});
+            xhr.send(new_students_classes);
+		
+        </script>-->
+        
+        <!--<script>
+            /* 
+				Richiesta DELETE eliminazione di una relazione classe-studente
+			*/
+			//preparo la richiesta ajax
+            var xhr = new XMLHttpRequest();
+            //asincrona
+            xhr.open("DELETE", 'http://localhost/phprest/students_classes.php/14', true);
+            //configuro la callback di risposta ok
+
+            xhr.onload = function() {
+                //scrivo la risposta nel body della pagina
+                document.getElementById('risposta').innerHTML += xhr.response;
+            };
+            //configuro la callback di errore
+            xhr.onerror = function() { 
+                alert('Errore');
+            };
+            //invio la richista ajax
+
+            xhr.send();
+		
+        </script>-->
+
+        <!--<script>
+            /* 
+				Richiesta PUT aggiornamento dati classe (parametro classe completo)
+			*/
+			//preparo la richiesta ajax
+            var xhr = new XMLHttpRequest();
+            //asincrona
+            xhr.open("PUT", 'http://localhost/phprest/students_classes.php/16', true);
+            //configuro la callback di risposta ok
+
+            xhr.onload = function() {
+                //scrivo la risposta nel body della pagina
+                document.getElementById('risposta').innerHTML += xhr.response;
+            };
+            //configuro la callback di errore
+            xhr.onerror = function() { 
+                alert('Errore');
+            };
+            //invio la richista ajax
+
+            var update_students_classes=JSON.stringify({"id_student":79, "id_class":5}); //da classe 14 a classe 5
+            xhr.send(update_students_classes);
+		
+        </script>-->
+
+        <!--<script>
+            /* 
+				Richiesta PATCH aggiornamento dati classe-studenti (parametro parziale)
+			*/
+			//preparo la richiesta ajax
+            var xhr = new XMLHttpRequest();
+            //asincrona
+            xhr.open("PATCH", 'http://localhost/phprest/students_classes.php/16', true);
+            //configuro la callback di risposta ok
+
+            xhr.onload = function() {
+                //scrivo la risposta nel body della pagina
+                document.getElementById('risposta').innerHTML += xhr.response;
+            };
+            //configuro la callback di errore
+            xhr.onerror = function() { 
+                alert('Errore');
+            };
+            //invio la richista ajax
+
+            var update_students_classes=JSON.stringify({"id_class":34}); //da classe 5 a classe 34
+            xhr.send(update_students_classes);
+		
+        </script>-->
+
     </head>
     <body>
-        <h1>Richieste ajax</h1>
+        <h1>Richieste AJAX by Andrea Delli
+            <span style="font-size:250%;color:red;">&hearts;</span>
+        </h1>
         <p>Risposta:</p>
         <div id="risposta"></div>
 		
