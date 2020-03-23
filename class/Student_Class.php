@@ -7,57 +7,40 @@
  */
  
 include("DBConnection.php");
-class Classe 
+class student_class 
 {
     protected $db;
     public $_id;
-    public $_year;
-    public $_section;
+    public $_id_student;
+    public $_id_class;
  
     public function __construct() {
         $this->db = new DBConnection();
         $this->db = $this->db->returnConnection();
     }
  
-	public function lastID()
-	{
-		try {
-			$sql = "SELECT id FROM class ORDER BY id DESC LIMIT 1";
-			$stmt = $this->db->prepare($sql);
-			$stmt->execute();
-			$result = $stmt->fetch(\PDO::FETCH_ASSOC);
-			return $result;
-		} catch (Exception $e) {
-		    
-			die("Oh noes! There's an error in the query!");
-			
-		}
-	}
-
     //insert
     public function inserimento() {
 		try {
-    		$sql = 'INSERT INTO class (year, section)  VALUES (:year, :section)';
+    		$sql = 'INSERT INTO student_class (id_student, id_class)  VALUES (:id_student, :id_class)';
     		$data = [
-			    'year' => $this->_year,
-			    'section' => $this->_section,
+			    'id_student' => $this->_id_student,
+			    'id_class' => $this->_id_class,
 			];
 	    	$stmt = $this->db->prepare($sql);
 	    	$stmt->execute($data);
 			$status = $stmt->rowCount();
-
-            return $this->lastID();
+            return $status;
  
 		} catch (Exception $e) {
-    		die("Oh noes! There's an error in the query!");
+    		die("Oh no! Stai cercando di aggiungere uno studente giaà assegnato ad una classe, ad un'altra! Riprova con un nuovo utente");
 		}
- 
     }
    
     // getAll 
     public function lista() {
     	try {
-    		$sql = "SELECT * FROM class ORDER BY section ASC";
+    		$sql = "SELECT * FROM student_class";
 		    $stmt = $this->db->prepare($sql);
  
 		    $stmt->execute();
@@ -71,7 +54,7 @@ class Classe
     // getOne
     public function one() {
     	try {
-    		$sql = "SELECT * FROM class WHERE id=:id";
+    		$sql = "SELECT * FROM student_class WHERE id=:id";
 		    $stmt = $this->db->prepare($sql);
 		    $data = [
 		    	'id' => $this->_id
@@ -88,7 +71,7 @@ class Classe
     public function eliminazione() 
 	{
 		try {
-    		$sql = "DELETE FROM class WHERE id=:id";
+    		$sql = "DELETE FROM student_class WHERE id=:id";
 		    $stmt = $this->db->prepare($sql);
 		    $data = [
 		    	'id' => $this->_id
@@ -101,20 +84,18 @@ class Classe
 			die("Oh noes! There's an error in the query!");
 			
 		}
-	}
-	
-	
+    }
 
     // put TODO
     public function aggiornamento() 
 	{
 		try {
-    		$sql = "UPDATE class SET year=:year, section=:section WHERE id=:id";
+    		$sql = "UPDATE student_class SET id_student=:id_student, id_class=:id_class WHERE id=:id";
 		    $stmt = $this->db->prepare($sql);
 		    $data = [
 		    	'id' => $this->_id,
-				'year' => $this->_year,
-				'section' => $this->_section
+				'id_student' => $this->_id_student,
+				'id_class' => $this->_id_class
 			];
 		    $stmt->execute($data);
             return "Aggiornamento effettuato";
@@ -129,11 +110,11 @@ class Classe
     public function aggiornamento_parziale() 
 	{
 		try {
-    		$sql = "UPDATE class SET ";
-			if($this->_year)
-				$sql .= " year=:year,";
-			if($this->_section)
-				$sql .= " section=:section,";
+    		$sql = "UPDATE student_class SET ";
+			if($this->_id_student)
+				$sql .= " id_student=:id_student,";
+			if($this->_id_class)
+				$sql .= " id_class=:id_class,";
 			
 			//rimozione dell'ultima virgola
 			$lenght= strlen($sql);
@@ -144,18 +125,43 @@ class Classe
 		    $data = [
 		    	'id' => $this->_id
 			];
-			if($this->_year)
-				$data["year"] = $this->_year;
-			if($this->_section)
-				$data["section"] = $this->_section;
-		    $stmt->execute($data);
+			if($this->_id_class)
+				$data["id_class"] = $this->_id_class;
+			if($this->_id_student)
+                $data["id_student"] = $this->_id_student;
+            $stmt->execute($data);
             return "Aggiornamento effettuato";
 		} catch (Exception $e) {
 		    
-			die("Oh noes! There's an error in the query!");
+			die("Oh noes! There's an error in the query!".$e);
 			
 		}
     }
- 
+    public function student_for_class()
+    {
+        try {
+
+/*
+            $cdata=DB::table('student')
+                    ->join('student_class', 'student.id', '=', 'student_class.id_student')
+                    ->select('student.*')
+                    ->where('student_class.id_class',$this->_id_class)
+                    ->get();
+        
+            echo json_encode($cdata);
+        */
+
+    		$sql = "SELECT S.* FROM student as S inner join student_class as SC on S.id=SC.id_student where SC.id_class=:id_class";
+            $stmt = $this->db->prepare($sql);
+            $data = [
+		    	'id_class' => $this->_id_class
+            ];
+		    $stmt->execute($data);
+		    $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            return $result;
+		} catch (Exception $e) {
+		    die("Oh noes! There's an error in the query!".$e);
+		}
+    }
 }
 ?>
