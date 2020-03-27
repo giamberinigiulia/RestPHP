@@ -6,28 +6,41 @@
     {
         case 'GET':
 			$pathArray = explode('/', $_SERVER['REQUEST_URI']);
-            $path = explode ('?', $pathArray[2]);
-			if($path[1])
-            {
-				$p = explode('=',$path[1]);
-                $id = $p[1];
-                $classe->_id=$id;
-				$data=$classe->one();
+            if(in_array("?",$pathArray))
+			{
+				$path = explode ('?', $pathArray[2]);
+				if($path[1])
+				{
+					$p = explode('=',$path[1]);
+					$id = $p[1];
+					$classe->_id=$id;
+					$data=$classe->one();
+				}
             }
             else
             {
-                $data = $classe->list();
-            }
+				if(count($pathArray)>3)
+				{
+					$id = $pathArray[3];
+					$classe->_id=$id;
+					$data=$classe->one();
+				}
+				else
+				{
+					$data = $classe->lista();
+				}
+			}
             if(!empty($data)) 
 			{
-			  $js_encode = json_encode(array('status'=>TRUE, 'classeInfo'=>$data), true);
+				$js_encode = json_encode(array('status'=>TRUE, 'classeInfo'=>$data), true);
+			  	//$js_encode = json_encode(array($data), true);
 			} 
 			else 
 			{
-			  $js_encode = json_encode(array('status'=>FALSE, 'message'=>'There is no record yet.'), true);
+			  	$js_encode = json_encode(array('status'=>FALSE, 'message'=>'There is no record yet.'), true);
 			}
             header('Content-Type: application/json');
-            echo "Response: " . $js_encode;
+            echo $js_encode;
             break;
 		case 'POST':
 			$JSON=file_get_contents('php://input');
@@ -40,7 +53,7 @@
 			$js_encode = json_encode(array('status'=>TRUE, 'classeInfo'=>$data), true);
 
 			header('Content-Type: application/json');
-			echo "Response: " . $js_encode;			
+			echo $js_encode;			
             break;
 		case 'DELETE':
 			$pathArray = explode('/', $_SERVER['REQUEST_URI']);
@@ -59,7 +72,7 @@
 			  $js_encode = json_encode(array('status'=>FALSE, 'message'=>'Opss'), true);
 			}
             header('Content-Type: application/json');
-            echo "Response: " . $js_encode;
+            echo $js_encode;
             break;
 		case 'PUT':
 		
@@ -92,7 +105,7 @@
 			  $js_encode = json_encode(array('status'=>FALSE, 'message'=>'Opss'), true);
 			}
 			header('Content-Type: application/json');
-            echo "Response: " . $js_encode;
+            echo $js_encode;
             break;
 		case 'PATCH':
 			
@@ -121,7 +134,7 @@
 			  $js_encode = json_encode(array('status'=>FALSE, 'message'=>'Opss'), true);
 			}
 			header('Content-Type: application/json');
-            echo "Response: " . $js_encode;
+            echo $js_encode;
 			break;
     };
 ?>

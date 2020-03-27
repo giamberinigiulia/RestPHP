@@ -19,6 +19,21 @@ class Classe
         $this->db = $this->db->returnConnection();
     }
  
+	public function lastID()
+	{
+		try {
+			$sql = "SELECT id FROM class ORDER BY id DESC LIMIT 1";
+			$stmt = $this->db->prepare($sql);
+			$stmt->execute();
+			$result = $stmt->fetch(\PDO::FETCH_ASSOC);
+			return $result;
+		} catch (Exception $e) {
+		    
+			die("Oh noes! There's an error in the query!");
+			
+		}
+	}
+
     //insert
     public function inserimento() {
 		try {
@@ -29,8 +44,8 @@ class Classe
 			];
 	    	$stmt = $this->db->prepare($sql);
 	    	$stmt->execute($data);
-			$status = $stmt->rowCount();
-            return $status;
+
+            return $this->lastID();
  
 		} catch (Exception $e) {
     		die("Oh noes! There's an error in the query!");
@@ -41,7 +56,7 @@ class Classe
     // getAll 
     public function lista() {
     	try {
-    		$sql = "SELECT * FROM class";
+    		$sql = "SELECT * FROM class ORDER BY section ASC";
 		    $stmt = $this->db->prepare($sql);
  
 		    $stmt->execute();
@@ -85,7 +100,9 @@ class Classe
 			die("Oh noes! There's an error in the query!");
 			
 		}
-    }
+	}
+	
+	
 
     // put TODO
     public function aggiornamento() 

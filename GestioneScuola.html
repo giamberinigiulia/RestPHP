@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <!DOCTYPE html>
+<html lang="en">
+        <head>
+            <title>Gestione class-studenti Giamberini</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--===============================================================================================-->	
+            <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+        <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+        <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+        <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+        <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+        <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
+        <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="css/util.css">
+            <link rel="stylesheet" type="text/css" href="css/main.css">
+        <!--===============================================================================================-->
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <!--===============================================================================================-->
+            <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+        </head>
+    <body>
+        <div class="web-page-application">
+        <!-- button used to add a new class-->
+        <button type="button" id="add_new" class="btn js-pscroll" data-toggle="modal" data-target="#modal-body"><i class="fas fa-plus-circle"></i></button>
+        <!-- modal popup for adding a new class -->
+        <div class="modal fade style" id="modal-body" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal-label">Inserimento nuova classe</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="recipient-section" class="col-form-label">Sezione:</label>
+                            <input type="text" class="form-control" id="recipient-section" value="" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="recipient-year" class="col-form-label">Anno:</label>
+                            <select id="recipient-year" class="form-control">
+                                
+                            </select>
+                        </div>
+
+                        <script> // Dynamically add years to the select 
+                            var i = 1970;
+
+                            var data = new Date();
+                            var thisYear= data.getFullYear();
+
+                            var stringa="";
+                            for (i; i <= 2030; i++) {
+                                if(i == thisYear) stringa += "<option value='" + i + "' selected>" + i + "</option>";
+                                else stringa += "<option value='" + i + "'>" + i + "</option>";
+                                
+                            }
+                            document.querySelector("#recipient-year").innerHTML = stringa;
+                        </script>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="aggiungiclasse(document.querySelector('#recipient-year').value, document.querySelector('#recipient-section').value)">Aggiungi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- div for table that use bootstrap template-->
+        <div class="limiter1">
+            <div class="container-table100">
+                <div class="wrap-table100">
+                    <div class="table100 ver1 m-b-110" id="classes">
+                        <div class="table100-head">
+                            <table>
+                                <thead>
+                                    <tr class="row100 head">
+                                        <th class="cell100 column1">Section</th>
+                                        <th class="cell100 column2">School year</th>
+                                        <th class="cell100 column3">Show</th>
+                                        <th class="cell100 column4">Edit</th>
+                                        <th class="cell100 column5">Delete</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+    
+                        <div class="table100-body js-pscroll">
+                            <table>
+                                <tbody id="classi-table-body">
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>	
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--===============================================================================================-->
+        <script src="vendor/bootstrap/js/popper.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+        <script src="vendor/select2/select2.min.js"></script>
+    <!--===============================================================================================-->
+        <script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+    
+    <!--===============================================================================================-->
+        <script src="js/main.js"></script>
+    
+    </body>
+    </html>

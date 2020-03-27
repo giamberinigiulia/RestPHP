@@ -21,10 +21,25 @@ class Student
         $this->db = $this->db->returnConnection();
     }
  
+	public function lastID()
+	{
+		try {
+			$sql = "SELECT id FROM student ORDER BY id DESC LIMIT 1";
+			$stmt = $this->db->prepare($sql);
+			$stmt->execute();
+			$result = $stmt->fetch(\PDO::FETCH_ASSOC);
+			return $result;
+		} catch (Exception $e) {
+		    
+			die("Oh noes! There's an error in the query!");
+			
+		}
+	}
+
     //insert
     public function inserimento() {
 		try {
-    		$sql = 'INSERT INTO student (name, surname, sidiCode, taxCode)  VALUES (:name, :surname, :sidiCode, :taxCode)';
+    		$sql = 'INSERT INTO student (name, surname, sidi_code, tax_code)  VALUES (:name, :surname, :sidiCode, :taxCode)';
     		$data = [
 			    'name' => $this->_name,
 			    'surname' => $this->_surname,
@@ -33,15 +48,17 @@ class Student
 			];
 	    	$stmt = $this->db->prepare($sql);
 	    	$stmt->execute($data);
-			$status = $stmt->rowCount();
-            return $status;
+			
+			return $this->lastID();
  
 		} catch (Exception $e) {
-    		die("Oh noes! There's an error in the query!");
+    		die("Oh noes! There's an error in the query!" . $e);
 		}
  
     }
    
+	
+
     // getAll 
     public function lista() {
     	try {
@@ -93,7 +110,7 @@ class Student
     public function aggiornamento() 
 	{
 		try {
-    		$sql = "UPDATE student SET name=:name, surname=:surname, sidiCode=:sidiCode, taxCode=:taxCode WHERE id=:id";
+    		$sql = "UPDATE student SET name=:name, surname=:surname, sidi_code=:sidiCode, tax_code=:taxCode WHERE id=:id";
 		    $stmt = $this->db->prepare($sql);
 		    $data = [
 		    	'id' => $this->_id,
@@ -106,7 +123,7 @@ class Student
             return "Aggiornamento effettuato";
 		} catch (Exception $e) {
 		    
-			die("Oh noes! There's an error in the query!");
+			die("Oh noes! There's an error in the query!" . $e);
 			
 		}
     }
@@ -121,9 +138,9 @@ class Student
 			if($this->_surname)
 				$sql .= " surname=:surname,";
 			if($this->_sidiCode)
-				$sql .=" sidiCode=:sidiCode,";
+				$sql .=" sidi_code=:sidiCode,";
 			if($this->_taxCode)
-				$sql .=" taxCode=:taxCode,";
+				$sql .=" tax_code=:taxCode,";
 			
 			//rimozione dell'ultima virgola
 			$lenght= strlen($sql);
